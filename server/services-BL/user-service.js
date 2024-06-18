@@ -16,8 +16,7 @@ const creatNewUser = async (reqBody) => {
 
 const getUsers = async () => {
   
-  await getAllUsers();
-  console.log("first")
+  return await getAllUsers();
 }
 
 const getCompanyUsers = async (companyId) => {

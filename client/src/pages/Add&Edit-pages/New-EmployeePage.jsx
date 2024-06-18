@@ -16,8 +16,10 @@ function NewEmployeePage() {
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await axios.get(`/companies/company/departments/${user.chosenCompany}`);
-            setDepartments(data.department);
+            setDepartments(data.departments);
         }
+        
+        if (user)
         fetchData();
     }, [user]);
 

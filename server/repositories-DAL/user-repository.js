@@ -33,6 +33,9 @@ const getAllUsers = async () => await User.find().populate({
       path: "manager",
     },
   },
+  populate: {
+    path: "manager",
+  }
 })
 // .populate({path:"departments",populate:{path:"permission"}});
 

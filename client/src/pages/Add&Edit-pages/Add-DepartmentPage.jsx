@@ -65,8 +65,10 @@ function NewDepartmentPage({ direct, handleForm }) {
   const handleCancel = () => {
     if (direct) {
       handleForm(false)
+      console.log(user.chosenCompany._id)
       navigate(`/departments/${user.chosenCompany._id.toString()}`)
     } else
+    console.log(user.chosenCompany._id)
       navigate(`/departments/${user.chosenCompany._id.toString()}`)
   };
 

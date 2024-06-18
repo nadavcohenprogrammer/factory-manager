@@ -1,44 +1,21 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../UserContext';
 import { fetchData } from '../../services/utils';
 import SidebarItem from '../../components/Sidebar/SidebarItem';
 
 const EmployeesPage = () => {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const [employees, setEmployees] = useState([]);
   const [shifts, setShifts] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState('');
 
-  // useEffect(() => {
-  //   const importData = async () => {
-  //     try {
-  //       const shifts = await fetchData("/shifts/shifts");
-  //       setShifts(shifts);
-  //       const employees = await fetchData('/employees/employees');
-  //       setEmployees(employees);
-  //       if(user){
-  //         const departments = await fetchData(`/companies/company/departments/${user.chosenCompany}`);
-  //         setDepartments(departments.department);
-  //       }
-  //     } catch (err) {
-  //       if (err.response.status === 429) {
-  //         alert(err.response.data.error);
-  //         return;
-  //       }
-  //       console.error(err);
-  //     }
-  //   };
-  //   importData();
-  // }, [user]);
-
   useEffect(() => {
     const refreshData = async () => {
       let allShifts = [];
       let allEmployees = [];
-      const departmentsData = await fetchData(`/companies/company/departments/${user.chosenCompany._id.toString()}`);
+      const departmentsData = await fetchData(`/companies/company/departments/${user.chosenCompany._id}`);
       setDepartments(departmentsData.department);
       for (const department of departmentsData.department) {
         const shiftsData = await fetchData(`/shifts/shifts/${department._id}`);
@@ -48,9 +25,8 @@ const EmployeesPage = () => {
       }
       setShifts(allShifts);
       setEmployees(allEmployees);
-    }
-    if (user)
-      refreshData()
+    };
+    if (user) refreshData();
   }, [user]);
 
   const handleDepartmentChange = (event) => {
@@ -58,17 +34,14 @@ const EmployeesPage = () => {
   };
 
   const filteredEmployees = selectedDepartment
-    ? employees.filter((emp) => emp.department?._id.toString() === selectedDepartment.toString())
+    ? employees.filter((emp) => emp.department?._id === selectedDepartment)
     : employees;
 
   return (
-
     <div className='flex'>
       <SidebarItem />
       <div className='flex-grow'>
-
         <div className="container mx-auto px-4 py-8">
-
           <h1 className="text-3xl font-semibold mb-4 text-center">Employees</h1>
           <div className="flex flex-col md:flex-row items-center justify-between mb-4">
             <Link
@@ -78,7 +51,7 @@ const EmployeesPage = () => {
               New Employee
             </Link>
             <select
-              className="ml-4 md:ml-0  px-2 py-1 border border-gray-300 rounded"
+              className="ml-4 md:ml-0 px-2 py-1 border border-gray-300 rounded"
               onChange={handleDepartmentChange}
             >
               <option value="">All Departments</option>

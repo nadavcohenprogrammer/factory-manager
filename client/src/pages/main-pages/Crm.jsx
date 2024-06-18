@@ -9,7 +9,7 @@ import { UserContext } from "../../UserContext";
 
 
 const Crm = () => {
-    // const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [users, setUsers] = useState([]);
     const [company, setCompany] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -18,8 +18,8 @@ const Crm = () => {
     useEffect(() => {
         const getData = async () => {
             const users = await fetchData('/users');
-            console.log(users)
             setUsers(users);
+            console.log(users)
             const company = await fetchData('/companies/companies');
             setCompany(company);
 
@@ -91,7 +91,7 @@ const Crm = () => {
                                     <td>{user?.company[0]?.name}</td>
                                     {/* going to be shown in companies icon */}
                                     <td>{user?.companyRole}</td>
-                                    <td>{user?.company[0]?.manager}</td>
+                                    <td>{user?.company[0]?.manager[0].firstName} {user?.company[0]?.manager[0].lastName}</td>
                                 </tr>
                             ))}
                         </tbody>
