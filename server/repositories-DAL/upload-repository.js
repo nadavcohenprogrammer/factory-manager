@@ -47,7 +47,7 @@ const getFile = (req, res) => {
         message: "Unable to scan files!",
       });
     }
-    const baseUrl = "http://localhost:3000/file/files";
+    const baseUrl = "https://factory-manager-backend.onrender.com/file/files";
     let fileInfo = { 
       name: file,
       url: baseUrl + file,
