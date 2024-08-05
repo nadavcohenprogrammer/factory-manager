@@ -64,7 +64,7 @@ const IndexPage = () => {
                   {company.logo && (
                     <div className="flex items-center">
                       <img
-                        src={`http://localhost:3000/uploads/${company.logo}`}
+                        src={`https://factory-manager-backend.onrender.com/uploads/${company.logo}`}
                         alt="company logo"
                         className="w-40 h-20 object-contain rounded-2xl"
                       />
