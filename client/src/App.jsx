@@ -22,7 +22,7 @@ import EditCompanyPage from './pages/Add&Edit-pages/Edit-CompanyPage';
 import TasksApp from './components/Tasks/Tasks-App';
 import DocumentManagementPage from './pages/main-pages/Documents/DocumentManagementPage';
 
-axios.defaults.baseURL = 'https://factory-manager-backend.onrender.com';
+axios.defaults.baseURL ='https://factory-manager-backend.onrender.com';
 axios.defaults.withCredentials = true;
 
 function App() {
