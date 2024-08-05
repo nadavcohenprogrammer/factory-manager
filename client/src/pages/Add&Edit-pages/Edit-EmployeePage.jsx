@@ -30,8 +30,6 @@ function EditEmployeePage() {
                     const shifts = await fetchData(`/shifts/shifts/${departementId}`);
                     setShifts(shifts)
                 }
-console.log(shifts)
-
             } catch (error) {
                 console.error("Error finding employee :", error);
             }

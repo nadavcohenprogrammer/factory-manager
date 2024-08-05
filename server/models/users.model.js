@@ -1,6 +1,6 @@
 // user.js (Updated to include company reference and permissions)
 const mongoose = require("mongoose");
-const Department = require("./department.modol");
+const Department = require("./department.model");
 
 const Schema = mongoose.Schema;
 
@@ -25,7 +25,13 @@ const userSchema = Schema(
 
     departments: [{
       department: { type: Schema.Types.ObjectId, ref: "Department" },
-      permission: {
+      permission: { departments: [{
+        department: { type: Schema.Types.ObjectId, ref: 'Department' },
+        permission: {
+          type: String,
+          enum: ['view', 'edit', 'delete']
+        }
+      }],
         type: String,
         enum: ["view", "edit", "delete"]
       }

@@ -9,9 +9,9 @@ const Layout = () => {
   return (
     <div className='p-4'>
       <Header />
-      <div className='flex'>
+      <div className='flex sticky'>
         {/* Sidebar can be toggled based on screen size or state */}
-        {/* <SidebarItem /> */}
+        <SidebarItem />
         <div className='flex-grow'>
           <Outlet />
         </div>

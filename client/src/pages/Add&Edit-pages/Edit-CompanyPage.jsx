@@ -22,7 +22,6 @@ const EditCompanyPage = () => {
     useEffect(() => {
         const importData = async () => {
             const company = await fetchData(`/companies/company/${id}`);
-            console.log(company)
             const users = await fetchData(`/users/company-users/${id}`);
             setUsers(users);
             setCompany(company);

@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
-const dbUrl = process.env.MONGO_URL
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb+srv://Nadav:Qwaszx058@atlascluster.gfoswkl.mongodb.net/', {
+        const mongoUrl = process.env.MONGO_URL;
+        
+        if (!mongoUrl) {
+            throw new Error('MONGO_URL is not defined in environment variables');
+        }
+        await mongoose.connect(mongoUrl, {
             useNewUrlParser: true,
-            dbName:'Factory',
+            dbName: 'Factory',
             useUnifiedTopology: true,
             // bufferCommands: false, // Disable command buffering
         });
@@ -15,4 +19,5 @@ const connectDB = async () => {
         console.error('Error connecting to MongoDB:', error);
     }
 }
+
 module.exports = connectDB;

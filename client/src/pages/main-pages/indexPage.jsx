@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../../Header";
-import SidebarItem from "../../components/Sidebar/SidebarItem";
+// import SidebarItem from "../../components/Sidebar/SidebarItem";
 import { useEffect, useState, useContext } from "react";
 import { fetchData, postData } from "../../services/utils";
 import NewDepartmentPage from "../Add&Edit-pages/Add-DepartmentPage";
@@ -17,7 +17,6 @@ const IndexPage = () => {
   useEffect(() => {
     if (user) {
       setChosenCompany(user?.chosenCompany?.name || user?.company[0]?.name);
-      console.log(user?.chosenCompany);
       const fetchCompanies = async () => {
         try {
           const companiesData = user.company;
@@ -41,7 +40,7 @@ const IndexPage = () => {
 
   return (
     <div className="flex">
-      <SidebarItem />
+      {/* <SidebarItem /> */}
       <div className="flex-grow">
         {companies.length > 0 ? (
           companies.map((company) => (

@@ -14,7 +14,6 @@ const AddCompanyPage = () => {
     const addPhotoByLink = async (e) => {
         e.preventDefault()
         const { data } = await axios.post("/file/upload-by-link", { link: photoLink })
-        console.log(data)
         setAddedPhoto(data)
         setPhotoLink('');
     }
@@ -29,7 +28,6 @@ const AddCompanyPage = () => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        console.log(data)
         setAddedPhoto(data);
         setUploadPhoto('');
     };

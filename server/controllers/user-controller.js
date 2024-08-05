@@ -108,16 +108,18 @@ router.post("/add-user", async (req, res) => {
   }
 });
 
-router.post("/add-department/:userId", async (req, res) => {
+router.post('/add-department/:userId', async (req, res) => {
   try {
-    const { permission:departmentsId } = req.body;
-    console.log(departmentsId)
-    const { userId } =  req.params;
-    const result  = await addDepartmentToUser(userId, departmentsId);
+    const { permission: departmentsId } = req.body;
+    console.log('Received departmentsId:', departmentsId); // Debug log
+    const { userId } = req.params;
+
+    const result = await addDepartmentToUser(userId, departmentsId);
 
     res.status(201).json(result);
   } catch (error) {
-    serverErrorResponse(res);
+    console.error('Error in /add-department route:', error); // Debug log
+    res.status(500).json({ message: error.message });
   }
 });
 

@@ -19,6 +19,8 @@ import Crm from './pages/main-pages/Crm';
 import AddCompanyPage from './pages/Add&Edit-pages/Add-CompanyPage';
 import AddUserPage from './pages/Add&Edit-pages/Add-userPage';
 import EditCompanyPage from './pages/Add&Edit-pages/Edit-CompanyPage';
+import TasksApp from './components/Tasks/Tasks-App';
+import DocumentManagementPage from './pages/main-pages/Documents/DocumentManagementPage';
 
 axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.withCredentials = true;
@@ -49,8 +51,9 @@ function App() {
           <Route path='/edit-employee/:employeeId' element={<EditEmployeePage />} />
           <Route path='/add-employee' element={<NewEmployeePage />} />
           <Route path='/add-user/:companyId' element={<AddUserPage />} />
-
         </Route>
+          <Route path='/taskApp' element={<TasksApp />} />
+          <Route path='/documents' element={<DocumentManagementPage />} />
       </Routes>
     </UserContextProvider>
   )

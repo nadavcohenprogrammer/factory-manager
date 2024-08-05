@@ -25,7 +25,7 @@ export const deleteData = async (url) => {
       const response = await axios.post(url);
       return response.data;
     } catch (error) {
-      console.error("Error creating shift:", error);
+      console.error("Error delete data:", error);
       throw error;
     }
   };

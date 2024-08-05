@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Department = require("../models/department.modol");
+const Department = require("../models/department.model");
 const { updateEmployeeById, unassignDepartmentFromEmployees } = require("../services-BL/employee-service");
 const { deleteShiftRelatedToDepartment } = require("../services-BL/shift-service");
 

@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 // import { getUsers, unblockUser, getUserCompanies } from '../api'; // Import API functions for fetching data and performing actions
 import { BsPencilSquare, BsUnlock, BsBuilding } from 'react-icons/bs';
-import SidebarItem from '../../components/Sidebar/SidebarItem';
 import { fetchData } from '../../services/utils';
 import { UserContext } from "../../UserContext";
 
@@ -19,7 +18,6 @@ const Crm = () => {
         const getData = async () => {
             const users = await fetchData('/users');
             setUsers(users);
-            console.log(users)
             const company = await fetchData('/companies/companies');
             setCompany(company);
 
@@ -51,7 +49,7 @@ const Crm = () => {
 
     return (
         <div className="flex ">
-            <SidebarItem />
+            {/* <SidebarItem /> */}
             <div className="flex-grow">
                 <h1 className="text-2xl font-bold mb-4 mt-4 text-center">CRM</h1>
                 <div className="mt-4 mb-4">
@@ -79,12 +77,12 @@ const Crm = () => {
                             </tr>
                         </thead>
                         <tbody>
-                        {users.map((user) => (
+                            {users.map((user) => (
                                 <tr key={user._id} className='p-2 border-b-2 '>
                                     <td className="p-2 rounded-tl-lg flex gap-2">
-                                        <span className=' text-blue-700 text-xl hover:bg-blue-600 p-1 cursor-pointer hover:rounded-md hover:text-white'><BsPencilSquare /></span>
-                                        <span className=' text-blue-700 text-xl hover:bg-blue-600 p-1 cursor-pointer hover:rounded-md hover:text-white'><BsUnlock /></span>
-                                        <span className=' text-blue-700 text-xl hover:bg-blue-600 p-1 cursor-pointer hover:rounded-md hover:text-white'><BsBuilding /></span>
+                                        <button className=' text-blue-700 text-xl bg-white hover:bg-blue-600 p-1 cursor-pointer hover:rounded-md hover:text-white'><BsPencilSquare /></button>
+                                        <button className=' text-blue-700 text-xl bg-white hover:bg-blue-600 p-1 cursor-pointer hover:rounded-md hover:text-white'><BsUnlock /></button>
+                                        <button className=' text-blue-700 text-xl bg-white hover:bg-blue-600 p-1 cursor-pointer hover:rounded-md hover:text-white'><BsBuilding /></button>
                                     </td >
                                     <td>{user?.firstName} {user.lastName}</td>
                                     <td>{user?.email}</td>

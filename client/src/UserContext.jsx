@@ -13,11 +13,16 @@ export const UserContextProvider = ({ children }) => {
         const fetchUser = async () => {
             try {
                 const { data } = await axios.get('/registration/profile');
-                setUser({ ...data, chosenCompany: data.company[0] });
+                if (data) {
+                    setUser({ ...data, chosenCompany: data.company[0] });
+                } else {
+                    setUser(null);
+                }
                 setReady(true);
             } catch (err) {
-                console.error(err);
+                console.error("Error fetching profile:", err);
                 setUser(null);
+                setReady(true);
             }
         };
         fetchUser();

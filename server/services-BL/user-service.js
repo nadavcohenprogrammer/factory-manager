@@ -10,8 +10,12 @@ const {
 } = require("../repositories-DAL/user-repository");
 
 const creatNewUser = async (reqBody) => {
-  const user = await createUser(reqBody);
-  return user;
+  try{
+    const user = await createUser(reqBody);
+    return user;
+  }catch{
+    return {error: "Error creating user"};
+  }
 };
 
 const getUsers = async () => {
@@ -24,9 +28,13 @@ const getCompanyUsers = async (companyId) => {
 };
 
 const getUserByEmail = async (email) => {
-  const user = await getUserWithEmail(email);
-  if (!user) throw new Error("User not found");
-  return user;
+  try {
+    const user = await getUserWithEmail(email);
+    return user;
+  } catch (error) {
+    
+    throw new Error("User not found");
+  }
 };
 
 const getUserById = async (userId) => {
@@ -48,40 +56,32 @@ const addUserToCompany = async (userId, companyId) => {
   if (user.company.includes(companyObjId)) {
     return user;
   } else {
-    console.log({ userCompany: user.company, company: companyObjId });
     const updatedUser = await updateUserById(user, { company: companyObjId });
-    console.log(updatedUser);
     return updatedUser;
   }
 };
 
-const addDepartmentToUser = async (userId, departmentId) => {
- 
+const addDepartmentToUser = async (userId, departmentIds) => {
   try {
-    
     const user = await getUserById(userId);
-     let update = {};
-    const departmentsObjId = [];
-    // update["departments"] = departmentsObjId;
-    // for (const id of departmentId)
-    // departmentsObjId.push(new mongoose.Types.ObjectId(id));
-    // update[key] = usersObjId;
-    console.log(user);
-    departmentId.map((depart) => {
-      const departmentObjId = new mongoose.Types.ObjectId(depart.name);
-      departmentsObjId.push(
-        departmentObjId,
-      );
-      update[index] = {}
-    });
-    return await updateUserById(user._id, 
-      { $set: update },
-      { new: true }
-    );
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
+    // Construct the departments array
+    const departments = departmentIds.map(department => ({
+      department: new mongoose.Types.ObjectId(department.name),
+      permission: department.value
+    }));
+    const update = { departments };
+    const updatedUser = await updateUserById(user._id, update, { new: true });
+    return updatedUser;
   } catch (error) {
-    console.error(error);
+    console.error('Error in addDepartmentToUser:', error);
+    throw error; // It's a good practice to rethrow the error after logging it
   }
 };
+
 // try {
 //   const updatedCompany = await Company.findByIdAndUpdate(
 //     req.params.id,

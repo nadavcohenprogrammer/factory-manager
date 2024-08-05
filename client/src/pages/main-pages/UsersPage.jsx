@@ -25,7 +25,7 @@ function UsersPage() {
 
     return (
         <div className='flex'>
-            <SidebarItem />
+            {/* <SidebarItem /> */}
             <div className='flex-grow'>
                 <h1 className='text-center p-4 mt-4 font-bold text-2xl'>Users</h1>
                 <div className='mt-4 mb-4 text-right'>

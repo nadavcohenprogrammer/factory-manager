@@ -50,11 +50,13 @@ router.post("/login",isValidLogin,isValidUserCreditial,async (req, res) => {
 
 router.post("/logout", (req, res) => {
   try {
-    res.cookie("token", '').json(true);
+    res.clearCookie("token"); // Use clearCookie to remove the cookie
+    res.json(true);
   } catch (error) {
     serverErrorResponse(res);
   }
 });
+
 
 router.get("/profile", async (req, res) => {
   const { token } = req.cookies;

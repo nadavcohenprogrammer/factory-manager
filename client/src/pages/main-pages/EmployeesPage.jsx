@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import { fetchData } from '../../services/utils';
-import SidebarItem from '../../components/Sidebar/SidebarItem';
+import LoadingBanner from "../../components/LoadingBanner";
 
 const EmployeesPage = () => {
   const { user } = useContext(UserContext);
@@ -10,9 +11,11 @@ const EmployeesPage = () => {
   const [shifts, setShifts] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const refreshData = async () => {
+      setLoading(true); // Start loading
       let allShifts = [];
       let allEmployees = [];
       const departmentsData = await fetchData(`/companies/company/departments/${user.chosenCompany._id}`);
@@ -25,21 +28,24 @@ const EmployeesPage = () => {
       }
       setShifts(allShifts);
       setEmployees(allEmployees);
+      setLoading(false); // Stop loading
     };
     if (user) refreshData();
   }, [user]);
 
-  const handleDepartmentChange = (event) => {
+  const handleDepartmentChange = useCallback((event) => {
     setSelectedDepartment(event.target.value);
-  };
+  }, []);
 
-  const filteredEmployees = selectedDepartment
-    ? employees.filter((emp) => emp.department?._id === selectedDepartment)
-    : employees;
+  const filteredEmployees = useMemo(() => {
+    return selectedDepartment
+      ? employees.filter((emp) => emp.department?._id === selectedDepartment)
+      : employees;
+  }, [employees, selectedDepartment]);
 
   return (
-    <div className='flex'>
-      <SidebarItem />
+    <div className='flex flex-col'>
+      {loading && <LoadingBanner />} {/* Loading banner */}
       <div className='flex-grow'>
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-semibold mb-4 text-center">Employees</h1>
@@ -62,16 +68,16 @@ const EmployeesPage = () => {
               ))}
             </select>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredEmployees.map((employee) => (
-              <div key={employee._id} className="bg-white rounded-md shadow p-4 overflow-hidden hover:overflow-auto min-h-28 max-h-96">
+              <div key={employee._id} className="bg-white rounded-md shadow p-4 min-h-28 max-h-96">
                 <h2 className="text-lg text-white font-semibold text-center bg-yellow-400 rounded-tl-lg rounded-tr-lg mb-4">
                   {employee.firstName} - {employee.lastName}
                 </h2>
                 {shifts
                   .filter((shift) => shift.employees?.some((emp) => emp._id === employee._id))
                   .map((shift) => (
-                    <div key={shift._id} className="bg-white rounded-md shadow p-4 mb-2">
+                    <div key={shift._id} className="bg-white rounded-md shadow p-2 mb-2">
                       <h3 className="text-sm font-medium mb-2">{shift.date}</h3>
                       <p className="text-xs text-gray-500 mb-2">{shift.startingHour} - {shift.endingHour}</p>
                       <div className="flex items-center justify-between">

@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 const loginController = require('./server/controllers/login-controller');
 const companyController = require('./server/controllers/company-controller');
 const userController = require('./server/controllers/user-controller');
@@ -21,7 +22,7 @@ app.use(cors({
 }));
 app.use('/uploads',express.static(__dirname + '/server/storage-files'));
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { 
@@ -43,9 +44,10 @@ app.use("/departments",isAuthenticated, departmentController);
 app.use("/file",uploadController);
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
     console.log('Server up...');
     await connectDB();
+    
 });

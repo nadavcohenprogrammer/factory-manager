@@ -1,5 +1,5 @@
-const SECRET = "mynadavcohensecret123!";
+// const SECRET = "mynadavcohensecret123!";
 
-module.exports = {
-  SECRET
-};
+// module.exports = {
+//   SECRET
+// };

@@ -1,16 +1,18 @@
 const jwt = require("jsonwebtoken");
-const { SECRET } = require("./config");
+// const { SECRET } = require("./config");
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
+const secret = process.env.SECRET;
 const bcrypt = require("bcryptjs");
 
 const createJWTToken = (email, name) => {
-  const token = jwt.sign({ email, name }, SECRET, { noTimestamp: true });
+  const token = jwt.sign({ email, name }, secret, { noTimestamp: true });
   return token;
 };
 
 const isValidToken = (req) => {
   try {
     const { token } = req.cookies;
-    const jwtPayload = jwt.verify(token, SECRET);
+    const jwtPayload = jwt.verify(token, secret);
     req.user = jwtPayload;
     return true;
   } catch (err) {
@@ -19,7 +21,7 @@ const isValidToken = (req) => {
 };
 
 const fetchToken = (token) => {
-  const jwtPayload = jwt.verify(token, SECRET);
+  const jwtPayload = jwt.verify(token, secret);
   return jwtPayload;
 };
 

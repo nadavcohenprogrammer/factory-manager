@@ -30,7 +30,7 @@ function AddUserPage() {
       setDepartments(departments.department);
     }
     if (user)
-      importData();
+      importData(); 
   }, [user]);
 
   const handlePermissions = (e) => {
@@ -47,7 +47,6 @@ function AddUserPage() {
             return [...prevState, { name, value }];
         }
     });
-    console.log(permission);
 };
 
 
@@ -61,7 +60,6 @@ const handleAddUser = async (e) => {
       password,
       companyId,
     })
-    // console.log("first")
     await postData(`/users/add-department/${user._id}`, { permission })
     navigate(`/departments/${companyId}`)
 
@@ -76,15 +74,10 @@ const handleAddUser = async (e) => {
 }
 
 const handleCancel = () => {
-  console.log(nextBtn);
   setNextBtn(false);
   navigate(`/employees/${company._id.toString()}`);
 };
 
-// const handleSelectDepartment = (event) => {
-//     const departmentId = event.target.value;
-//     setSelectDepartmen(departmentId);
-// }
 
 return (
   <div className="container mx-auto px-4 py-8">
@@ -96,16 +89,6 @@ return (
           <input type='text' placeholder='Doe' value={lname} onChange={(e) => setLname(e.target.value)} />
           <input type='email' placeholder='your@email.com' value={email} onChange={(e) => setEmail(e.target.value)} />
           <input type='password' placeholder='His Password' value={email} onChange={(e) => setPassword(e.target.value)} />
-          {/* <select
-                        id="departmentsList"
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                        onChange={handleSelectDepartment}>
-
-                        <option value="">Select a department to add a shift</option>
-                        {departments && departments.map((department) => (
-                            <option key={department._id} value={department._id}>{department.name}</option>
-                        ))}
-                    </select> TODO Splitting permissions by department */}
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4  mr-2 rounded-xl">
@@ -133,10 +116,7 @@ return (
                 <th className='p-2 border-l-[2px] border-white '>Viewing only</th>
                 <th className='p-2 border-l-[2px] border-white rounded-tr-lg'>Viewing and editing</th>
               </tr>
-              {/* <input type='radio' placeholder='John' value={fname} onChange={(e) => setFname(e.target.value)} />
-            <input type='text' placeholder='Doe' value={lname} onChange={(e) => setLname(e.target.value)} />
-            <input type='email' placeholder='your@email.com' value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type='password' placeholder='His Password' value={email} onChange={(e) => setPassword(e.target.value)} /> */}
+             
             </thead>
             <tbody>
               {departments.map(department => (
@@ -171,17 +151,6 @@ return (
                 </td>
               </tr>
             </tbody>
-            {/* <select
-                        id="departmentsList"
-                        className="border border-gray-300 rounded-md p-2 w-full"
-                        onChange={handleSelectDepartment}>
-
-                        <option value="">Select a department to add a shift</option>
-                        {departments && departments.map((department) => (
-                            <option key={department._id} value={department._id}>{department.name}</option>
-                        ))}
-                    </select> TODO Splitting permissions by department */}
-
 
           </table>
         </div>}
