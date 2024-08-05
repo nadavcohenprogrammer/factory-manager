@@ -97,7 +97,7 @@ const AddCompanyPage = () => {
                         </label> : <label
                         >
                             <input type='file' className='hidden' onChange={addPhoto} />
-                            <img src={'http://localhost:3000/uploads/' + addedPhoto} alt='company logo'
+                            <img src={'https://factory-manager-backend.onrender.com/uploads/' + addedPhoto} alt='company logo'
                                 className='rounded-2xl h-36 w-48 shadow-lg object-cover' /></label>}
                         {/* <img src={addPhoto} alt='company logo' className='w-32 h-32 object-cover' /> */}
 
