@@ -20,6 +20,7 @@ app.use(cors({
     credentials:true,
     origin: 'https://factory-manager-client.onrender.com',
 }));
+app.use(cors(corsOptions));
 app.use('/uploads',express.static(__dirname + '/server/storage-files'));
 app.use(session({
     secret: process.env.SECRET,
