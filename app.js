@@ -18,7 +18,7 @@ app.use(cookieParser())
 app.use(express.json()); 
 app.use(cors({
     credentials:true,
-    origin: 'http://localhost:5173',
+    origin: 'https://factory-manager-client.onrender.com',
 }));
 app.use('/uploads',express.static(__dirname + '/server/storage-files'));
 app.use(session({
