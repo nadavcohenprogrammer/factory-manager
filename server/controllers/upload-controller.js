@@ -23,15 +23,15 @@ router.post("/upload-by-link", async (req,res)=>{
   }
 });
 
-// Upload a new document
-router.post('/upload-documents', upload.single('file'), async (req, res) => {
-  const { name, type } = req.body;
-  const size = req.file.size;
-  const filePath = req.file.path;
-  const document = new Document({ name, type, size, filePath });
-  await document.save();
-  res.status(201).send(document);
-});
+// // Upload a new document
+// router.post('/upload-documents', upload.single('file'), async (req, res) => {
+//   const { name, type } = req.body;
+//   const size = req.file.size;
+//   const filePath = req.file.path;
+//   const document = new Document({ name, type, size, filePath });
+//   await document.save();
+//   res.status(201).send(document);
+// });
 // Fetch all documents
 router.get('/documents', async (req, res) => {
   const documents = await Document.find();
