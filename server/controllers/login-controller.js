@@ -1,4 +1,3 @@
-// In login-controller.js
 const express = require("express");
 const router = express.Router();
 const { createJWTToken, fetchToken } = require("../auth/index");
@@ -15,7 +14,7 @@ const {
 
 const serverErrorResponse = (res) => {
   res.status(500).json({
-    error: "server error",
+    error: "Server error",
   });
 };
 
