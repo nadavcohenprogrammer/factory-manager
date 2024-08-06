@@ -37,7 +37,7 @@ router.post("/register", isValidSignUp, async (req, res) => {
       sameSite: 'None',
       path: '/'
     };
-    res.cookie("token", token, cookieOptions).status(200).json({
+    res.cookies("token", token, cookieOptions).status(200).json({
       user,
       success: true,
       message: "Registration successful!"
