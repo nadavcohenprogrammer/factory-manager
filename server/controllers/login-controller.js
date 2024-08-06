@@ -19,44 +19,50 @@ const serverErrorResponse = (res) => {
   });
 };
 
-router.post("/register",isValidSignUp, async (req, res) => {
+const cookieOptions = {
+  expiresIn: "24h",
+  httpOnly: true, // Prevents JavaScript from accessing cookies
+  secure: process.env.NODE_ENV === 'production', // Only send over HTTPS
+  sameSite: 'None', // Allow cross-origin cookies
+  domain: 'factory-manager-client.onrender.com', // Set this if needed
+  path: '/' // Ensure this matches the path of your frontend
+};
+
+router.post("/register", isValidSignUp, async (req, res) => {
   try {
     const user = await creatNewUser(req.body);
-    const option = {
-      expiresIn: "24h"
-    }
-    res.cookie("token", createJWTToken(user.email, user.firstName),option).status(200).json({
-      user,
-      success: true,
-      message: "Registration successful!"
-    });
+    res.cookie("token", createJWTToken(user.email, user.firstName), cookieOptions)
+      .status(200)
+      .json({
+        user,
+        success: true,
+        message: "Registration successful!"
+      });
   } catch (error) {
     console.error("Registration error:", error);
-    serverErrorResponse(res)
+    serverErrorResponse(res);
   }
 });
 
-router.post("/login",isValidLogin,isValidUserCreditial,async (req, res) => {
+router.post("/login", isValidLogin, isValidUserCreditial, async (req, res) => {
   try {
     const { email } = req.body;
     const getUser = await getUserByEmail(email);
     const token = createJWTToken(email, getUser.firstName);
-    // getUser.lastLogin = Date.now();
-    res.cookie("token", token).json(getUser);
-  } catch (error) {
-     serverErrorResponse(res);
-  }
-});
-
-router.post("/logout", (req, res) => {
-  try {
-    res.clearCookie("token"); // Use clearCookie to remove the cookie
-    res.json(true);
+    res.cookie("token", token, cookieOptions).json(getUser);
   } catch (error) {
     serverErrorResponse(res);
   }
 });
 
+router.post("/logout", (req, res) => {
+  try {
+    res.clearCookie("token", cookieOptions); 
+    res.json(true);
+  } catch (error) {
+    serverErrorResponse(res);
+  }
+});
 
 router.get("/profile", async (req, res) => {
   const { token } = req.cookies;
