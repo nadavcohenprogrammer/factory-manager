@@ -76,7 +76,7 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/profile", async (req, res) => {
-  const { token } = req.cookies;
+  const { token } = req.cookie;
   if (token) {
     try {
       const { email } = fetchToken(token);
