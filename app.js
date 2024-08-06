@@ -49,6 +49,6 @@ app.use("/file", uploadController);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
-  console.log('Server up and running on port', PORT);
+  console.log(`Server up and running on port ${PORT}`);
   await connectDB();
 });
