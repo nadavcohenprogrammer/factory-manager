@@ -17,25 +17,24 @@ global.__basedir = __dirname;
 
 app.use(cookieParser());
 app.use(express.json());
-
-const corsOptions = {
-  credentials: true,
-  origin: 'https://factory-manager-client.onrender.com',
-};
-app.use(cors(corsOptions));
+app.use(cors({
+    credentials: true,
+    origin: 'https://factory-manager-client.onrender.com',
+}));
 
 app.use('/uploads', express.static(__dirname + '/server/storage-files'));
 
 app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { 
-    maxAge: 86400000, // 24 hours in milliseconds
-    // secure: true // Set to true if using HTTPS
-    actionCount: 0,
-    lastActionTimestamp: Date.now()
-  },
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+      maxAge: 86400000, // 24 hours in milliseconds
+      secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
+      sameSite: 'None',
+      domain: 'factory-manager-client.onrender.com',
+      path: '/',
+    },
 }));
 
 app.use("/registration", loginController);
@@ -49,6 +48,6 @@ app.use("/file", uploadController);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
-  console.log(`Server up and running on port ${PORT}`);
-  await connectDB();
+    console.log('Server up...');
+    await connectDB();
 });
