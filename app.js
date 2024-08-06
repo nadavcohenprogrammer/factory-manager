@@ -16,7 +16,7 @@ const { isAuthenticated } = require('./server/validations/user-validations');
 global.__basedir = __dirname;
 
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json()); 
 app.use(cors({
     credentials: true,
     origin: 'https://factory-manager-client.onrender.com',
@@ -32,9 +32,8 @@ app.use(session({
       maxAge: 86400000, // 24 hours in milliseconds
       secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
       sameSite: 'None',
-      domain: 'factory-manager-client.onrender.com',
-      path: '/',
-    },
+      domain: 'factory-manager-client.onrender.com'
+    }
 }));
 
 app.use("/registration", loginController);
