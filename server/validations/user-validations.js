@@ -65,13 +65,20 @@ const isValidUserCreditial = async (req, res, next) => {
 };
 
 const isAuthenticated = (req, res, next) => {
-  const tokenValid = isValidToken(req);
-  if (!tokenValid) {
+  const { token } = req.cookies;
+  if (!token) {
     return res.status(401).json({
-      error: "invalid token",
+      error: "Unauthorized",
     });
   }
-  return next();
+  const tokenValid = isValidToken(token);
+  if (!tokenValid) {
+    return res.status(401).json({
+      error: "Invalid token",
+    });
+  }
+  req.user = tokenValid; 
+  next();
 };
 
 const isValidUpUserPermision = async (req, res, next) => {
