@@ -67,14 +67,16 @@ router.post("/logout", (req, res) => {
 
 router.get("/profile", async (req, res) => {
   const { token } = req.cookies;
-  console.log('Received Token (profile):', token);
   if (token) {
-    const { email } = fetchToken(token);
-    const user = await getUserByEmail(email);
-    res.json(user);
+    try {
+      const { email } = fetchToken(token);
+      const user = await getUserByEmail(email);
+      res.json(user);
+    } catch (error) {
+      res.status(401).json({ error: "Invalid token" });
+    }
   } else {
-    res.status(401).json({ error: 'Unauthorized' });
+    res.status(401).json({ error: "No token provided" });
   }
 });
-
 module.exports = router;
