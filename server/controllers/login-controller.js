@@ -43,23 +43,39 @@ router.post("/register", isValidSignUp, async (req, res) => {
   }
 });
 
-router.post("/login", isValidLogin, isValidUserCreditial, async (req, res) => {
+router.post("/login", isValidLogin, async (req, res) => {
   try {
-    const { email } = req.body;
-    const getUser = await getUserByEmail(email);
-    const token = createJWTToken(email, getUser.firstName);
+    const { email, password } = req.body;
 
-    res.cookie("token", token, { ...cookieOptions, expires: new Date(Date.now() + 24 * 3600000) })
-      .status(200)
-      .json({
-        user: getUser,
-        message: "Login successful",
-      });
+    // Query the database for the user by email
+    const user = await getUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if the provided password is valid
+    const isPasswordValid = await isValidUserCreditial(email, password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Generate a JWT token after validating the user
+    const token = createJWTToken(user.email, user.firstName);
+
+    // Set the cookie with the token
+    res.cookie("token", token, {
+      ...cookieOptions,
+      expires: new Date(Date.now() + 24 * 3600000), // 24 hours
+    });
+
+    // Send back user data
+    res.status(200).json({ user, message: "Login successful" });
   } catch (error) {
     console.error("Login error:", error);
     serverErrorResponse(res);
   }
 });
+
 
 router.post("/logout", (req, res) => {
   try {
