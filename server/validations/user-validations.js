@@ -39,6 +39,7 @@ const trackUserActions = async (req, res, next) => {
 };
 
 const isValidLogin = (req, res, next) => {
+console.log("email2")
   const fields = ["email", "password"];
   if (!isValidFields(req.body, fields)) {
     return res.status(400).json({
@@ -49,6 +50,8 @@ const isValidLogin = (req, res, next) => {
 };
 
 const isValidUserCreditial = async (req, res, next) => {
+console.log("email3")
+
   const { email, password } = req.body;
   const user = await getUserByEmail(email);
   if (!user) {
@@ -65,6 +68,8 @@ const isValidUserCreditial = async (req, res, next) => {
 };
 
 const isAuthenticated = (req, res, next) => {
+console.log("email4")
+
   const { token } = req.cookies;
   if (!token) {
     return res.status(401).json({
@@ -72,6 +77,8 @@ const isAuthenticated = (req, res, next) => {
     });
   }
   const tokenValid = isValidToken(token);
+console.log("email5")
+
   if (!tokenValid) {
     return res.status(401).json({
       error: "Invalid token",
