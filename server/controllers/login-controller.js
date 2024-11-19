@@ -76,17 +76,14 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/profile", async (req, res) => {
-  const { token } = req.cookie;
+  console.log("profile")
+  const { token } = req.cookies;
   if (token) {
-    try {
-      const { email } = fetchToken(token);
-      const user = await getUserByEmail(email);
-      res.json(user);
-    } catch (error) {
-      res.status(401).json({ error: "Invalid token" });
-    }
+    const { email } = fetchToken(token);
+    const user = await getUserByEmail(email);
+    res.json(user);
   } else {
-    res.status(401).json({ error: "No token provided" });
+    res.json(null);
   }
 });
 module.exports = router;
