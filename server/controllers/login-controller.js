@@ -46,7 +46,9 @@ router.post("/register", isValidSignUp, async (req, res) => {
 router.post("/login", isValidLogin, isValidUserCreditial, async (req, res) => {
   try {
     const { email } = req.body;
+console.log(email)
     const getUser = await getUserByEmail(email);
+    console.log("email1")
     const token = createJWTToken(email, getUser.firstName);
     const cookieOptions = {
       expires: new Date(Date.now() + 24 * 3600000), // 24 hours
@@ -73,7 +75,9 @@ router.post("/logout", (req, res) => {
 
 router.get("/profile", async (req, res) => {
   try {
+console.log("email1")
     const { token } = req.cookie;
+console.log(token)
     if (token) {
       const { email } = fetchToken(token);
       const user = await getUserByEmail(email);
